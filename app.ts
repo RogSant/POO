@@ -53,6 +53,17 @@ export class App {
             if(rRent.user == rUser && rRent.bike == rBike && !rRent.dateReturned)
                 rRent.dateReturned = returnDate       
     }
+
+    listUsers(): User[] {
+        const listUsers = this.users
+        return listUsers 
+    }
+
+    listRents(): Rent[] {
+        return this.rents
+    }
+
+    listBikes(): Bike[] {
+        return this.bikes
+    }
 }
-
-
