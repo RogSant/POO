@@ -15,6 +15,10 @@ export class App {
         return this.bikes.find(bike => bike.id === id)
     }
 
+    findRent(bike: Bike, user: User, start: Date): Rent {
+        return this.rents.find(rent => rent.user === user && rent.bike === bike && rent.start === start )
+    }
+
     registerUser(user: User): void {
         for (const rUser of this.users) {
             if (rUser.email === user.email) {
@@ -39,31 +43,20 @@ export class App {
         this.users.splice(this.users.indexOf(this.findUser(email)), 1)
     }
 
-    rentBike(bikeId: string, userEmail: string, startDate: Date, endDate: Date): void {
+    rentBike(bikeId: string, userEmail: string, start: Date): void {
         const rUser = this.findUser(userEmail)
         const rBike = this.findBike(bikeId)
-        Rent.create(this.rents, rBike, rUser, startDate, endDate)
-        
+        if(!rBike.disponivel) throw new Error ('Bike não disponível.') 
+        const rRent = Rent.create(rUser, rBike, start, false)
+        this.rents.push(rRent)
     }
 
-    returnBike(userEmail: string, bikeId: string, returnDate: Date):void {
+    returnBike(userEmail: string, bikeId: string, start: Date, end: Date): value: Number  {
         const rUser = this.findUser(userEmail)
         const rBike = this.findBike(bikeId)
-        for(const rRent of this.rents)
-            if(rRent.user == rUser && rRent.bike == rBike && !rRent.dateReturned)
-                rRent.dateReturned = returnDate       
-    }
-
-    listUsers(): User[] {
-        const listUsers = this.users
-        return listUsers 
-    }
-
-    listRents(): Rent[] {
-        return this.rents
-    }
-
-    listBikes(): Bike[] {
-        return this.bikes
+        const rRent = this.findRent(rUser, rBike, start)
+        rRent.end = end
+        const value = (rRent.end.gettime() - rRent.start.gettime()) / 3600000 * rBike.rate 
     }
 }
+
