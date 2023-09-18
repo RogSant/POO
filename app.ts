@@ -1,6 +1,7 @@
 import { Bike } from "./bike";
 import { Rent } from "./rent";
 import { User } from "./user";
+import { Position } from "./position";
 
 export class App {
     users: User[] = []
@@ -57,6 +58,11 @@ export class App {
         const rRent = this.findRent(rUser, rBike, start)
         rRent.end = end
         const value = (rRent.end.gettime() - rRent.start.gettime()) / 3600000 * rBike.rate 
+    }
+
+    locateBike(bikeID: string, newPosition: Position): void {
+        const rBike = findBike(bikeID)
+        rBike.position = newPosition
     }
 }
 
