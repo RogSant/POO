@@ -1,10 +1,18 @@
-export class Bike {
-    id: string
-    valor: number
-    disponivel: boolean = true
+import { Position } from "./position";
 
-    constructor(numserie: string, valor: number){
-        this.id = numserie
-        this.valor = valor
-    }
+export class Bike {
+
+    constructor(
+        public name: string,
+        public type: string,
+        public bodySize: number,
+        public maxLoad: number,
+        public rate: number,
+        public description: string,
+        public ratings: number,
+        public imageUrls: string[],
+        public available: boolean = true,
+        public position: Position = new Position(0.0, 0.0),
+        public id?: string
+    ) {}
 }
